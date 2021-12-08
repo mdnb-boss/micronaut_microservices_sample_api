@@ -1,0 +1,19 @@
+micronaut:
+  application:
+    name: apiGateway
+  server:
+    port: 9999
+  config-client:
+    enabled: true
+
+consul:
+  client:
+    registration:
+      enabled: true
+    default-zone: "localhost:8500"
+
+gateway:
+  services:
+    - veiculo-service
+    - loja-service
+    - relatorio-service
