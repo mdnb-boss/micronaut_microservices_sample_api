@@ -1,2 +1,6 @@
 
 rootProject.name="curso_microservices_micronaut"
+include 'api-gateway'
+include 'loja-service'
+include 'relatorio-service'
+include 'veiculo-service'
