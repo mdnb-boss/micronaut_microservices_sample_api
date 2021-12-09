@@ -41,27 +41,28 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.discovery:micronaut-discovery-client")
+    implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 }
 
 
 application {
-    mainClass.set("br.com.marcelodaniel.ApplicationKt")
+    mainClass.set("br.com.marcelodaniel.VeiculoApplicationKt")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("11")
 }
 
 tasks {
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "11"
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "11"
         }
     }
 }

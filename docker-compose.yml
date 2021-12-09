@@ -1,0 +1,120 @@
+version: '3.5'
+
+services:
+  ms-consul:
+    container_name: consul
+    image: consul
+    ports:
+      - "8500:8500"
+#    networks:
+#      - micronaut-net
+
+  ms-redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+#    networks:
+#      - micronaut-net
+
+  ms-zookeeper:
+    container_name: zookeeper
+    image: jplock/zookeeper
+    ports:
+      - "2181:2181"
+#    networks:
+#      - micronaut-net
+
+  ms-kafka:
+    container_name: kafka
+    image: ches/kafka
+    ports:
+      - "7203:7203"
+      - "9092:9092"
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=zookeeper
+      - ZOOKEEPER_IP=zookeeper
+#    networks:
+#      - micronaut-net
+    depends_on:
+      - ms-zookeeper
+
+  ms-kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8888:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+#    networks:
+#      - micronaut-net
+    depends_on:
+      - ms-kafka
+
+  ms-postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=123456
+#    networks:
+#      - micronaut-net
+
+  ms-mongo:
+    container_name: ms-mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=e296cd9f
+#    networks:
+#      - micronaut-net
+
+  ms-api-gateway:
+    container_name: api-gateway
+    build: api-gateway
+    ports:
+      - "9090:9090"
+#    networks:
+#      - micronaut-net
+
+  ms-veiculo:
+    container_name: ms-veiculo
+    build: veiculo-service
+#    networks:
+#      - micronaut-net
+    depends_on:
+      - ms-postgres
+
+  ms-loja:
+    container_name: ms-loja
+    build: loja-service
+    environment:
+      - MICRONAUT_SERVER_PORT=-1
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - CONSUL_CLIENT_REGISTRATION_DEFAULT_ZONE=consul:8500
+#    networks:
+#      - micronaut-net
+    depends_on:
+      - ms-kafka
+      - ms-redis
+
+  ms-relatorio:
+    container_name: ms-relatorio
+    build: relatorio-service
+#    networks:
+#      - micronaut-net
+    depends_on:
+      - ms-mongo
+
+# docker network create micronaut-net
+#networks:
+#  micronaut-net:
+#    external: false
+#    name: micronaut-net

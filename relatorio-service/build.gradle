@@ -35,27 +35,28 @@ dependencies {
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut.kafka:micronaut-kafka")
     implementation("io.micronaut.mongodb:micronaut-mongo-sync:4.0.0")
+    implementation("io.micronaut.discovery:micronaut-discovery-client")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 }
 
 
 application {
-    mainClass.set("br.com.marcelodaniel.ApplicationKt")
+    mainClass.set("br.com.marcelodaniel.RelatorioApplicationKt")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("11")
 }
 
 tasks {
     compileKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "11"
         }
     }
     compileTestKotlin {
         kotlinOptions {
-            jvmTarget = "17"
+            jvmTarget = "11"
         }
     }
 }

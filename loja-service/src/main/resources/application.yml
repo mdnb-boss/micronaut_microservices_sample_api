@@ -2,14 +2,18 @@ micronaut:
   application:
     name: lojaService
   server:
-    port: 8081
+    port: ${MICRONAUT_SERVER_PORT:8082}
 
 kafka:
   bootstrap:
-    servers: localhost:9092
+    servers: ${KAFKA_BOOTSTRAP_SERVERS:`localhost:9092`}
+
+redis:
+  host: ${REDIS_HOST:localhost}
+  port: ${REDIS_PORT:6379}
 
 consul:
   client:
     registration:
       enabled: true
-    default-zone: "localhost:8500"
+    default-zone: ${CONSUL_CLIENT_REGISTRATION_DEFAULT_ZONE:"localhost:8500"}

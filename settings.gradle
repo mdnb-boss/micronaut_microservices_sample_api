@@ -1,5 +1,5 @@
 
-rootProject.name="curso_microservices_micronaut"
+//rootProject.name="curso_microservices_micronaut"
 include 'api-gateway'
 include 'loja-service'
 include 'relatorio-service'
